@@ -30,7 +30,7 @@ jobs:
         run: |
           ssh-keyscan beta.aptible.com >> ~/.ssh/known_hosts
           git remote add aptible ${{ secrets.APTIBLE_REMOTE_URL }}
-          git push --force aptible ${GITHUB_SHA}:master
+          git push --force aptible ${GITHUB_SHA}:main
 
       - name: Announce on Slack when deploy fails
         if: failure()
