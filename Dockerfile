@@ -25,6 +25,12 @@ WORKDIR /home/clam
 
 COPY launcher.sh /
 
+# Configure clamd to listen on TCP
+RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
+    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
+    echo "LocalSocket /run/clamav/clamd.sock" >> /etc/clamav/clamd.conf
+  
+
 # Update virus definitions, set permissions, and create required directories and files
 RUN freshclam && \
     mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
@@ -38,12 +44,6 @@ RUN freshclam && \
     chmod g+s /var/spool/cron/crontabs/root && \
     chmod +x /launcher.sh && \
     echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root 
-
-# Configure clamd to listen on TCP
-RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
-    echo "LocalSocket /run/clamav/clamd.sock" >> /etc/clamav/clamd.conf
-  
 
 USER clam
 COPY --from=build-env --chown=clam:clam /app/bin/clammit .
