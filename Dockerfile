@@ -32,11 +32,11 @@ RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
     echo "LocalSocket /run/clamav/clamd.sock" >> /etc/clamav/clamd.conf
 
-# Update virus definitions
-RUN freshclam
-    
-
+# Switch to clam user and update virus definitions
 USER clam
+RUN freshclam
+
+# Copy clammit binaries and test files
 COPY --from=build-env --chown=clam:clam /app/bin/clammit .
 COPY --from=build-env --chown=clam:clam /app/testfiles ./testfiles
 
