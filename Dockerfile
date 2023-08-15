@@ -37,7 +37,7 @@ RUN freshclam && \
     chown clam /launcher.sh && \
     chmod g+s /var/spool/cron/crontabs/root && \
     chmod +x /launcher.sh && \
-    echo "* * * * * freshclam" >> /var/spool/cron/crontabs/root 
+    echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root 
 
 # Configure clamd to listen on TCP
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
