@@ -41,7 +41,9 @@ RUN freshclam && \
 
 # Configure clamd to listen on TCP
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf  
+    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
+    echo "LocalSocket /run/clamav/clamd.sock" >> /etc/clamav/clamd.conf
+  
 
 USER clam
 COPY --from=build-env --chown=clam:clam /app/bin/clammit .
