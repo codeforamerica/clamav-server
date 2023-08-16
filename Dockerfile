@@ -16,7 +16,7 @@ COPY launcher.sh /
 
 # Set permissions, and create required directories and files
 RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
-    mkdir -p /run/clamav && touch /run/clamav/clamd.pid && touch /run/clamav/clamd.sock && \
+    mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
     chown clam /var/spool/cron/crontabs/root && \
     chown clam /var/log/clamav/freshclam.log && \
@@ -29,9 +29,8 @@ RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/lo
 
 # Configure clamd to listen on TCP
 RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
-    echo "LocalSocket /run/clamav/clamd.sock" >> /etc/clamav/clamd.conf
-
+    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf \
+    
 # Switch to clam user and update virus definitions
 USER clam
 RUN freshclam
