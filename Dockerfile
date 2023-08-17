@@ -25,12 +25,12 @@ RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/lo
     chown clam /launcher.sh && \
     chmod g+s /var/spool/cron/crontabs/root && \
     chmod +x /launcher.sh && \
-    echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root 
-
-# Configure clamd to listen on TCP
-RUN echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
+    echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root && \
+    # Configure clamd to listen on TCP
+    echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf
-    
+
+
 # Switch to clam user and update virus definitions
 USER clam
 RUN freshclam
