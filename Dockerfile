@@ -15,7 +15,7 @@ WORKDIR /home/clam
 COPY launcher.sh /
 
 # Set permissions, and create required directories and files
-RUN set -a && . /app/.aptible.env && \
+RUN set -a && . .aptible.env && \
     mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
     mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
