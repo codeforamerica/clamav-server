@@ -31,9 +31,8 @@ RUN set -a  && \
     echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root && \
     # Configure clamd to listen on TCP
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf
-
-RUN echo "*** Variables: " && \
+    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
+    echo "*** Variables: " && \
     echo ${CLAMMIT_LISTEN} && \
     echo ${CLAMMIT_CLAMD_URL} && \
     echo "***"
