@@ -17,7 +17,7 @@ COPY launcher.sh /
 ARG APTIBLE_ENV=/app/.aptible.env
 # Set permissions, and create required directories and files
 RUN set -a  && \
-    if [ -e ${APTIBLE_ENV} ] ; then . ${APTIBLE_ENV} ; fi && \
+    if [ -e ${APTIBLE_ENV} ] ; then . ${APTIBLE_ENV} && cat ${APTIBLE_ENV}; fi && \
     mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
     mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
