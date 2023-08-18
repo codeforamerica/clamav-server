@@ -46,5 +46,5 @@ jobs:
           sudo dpkg -i aptible-package
           aptible login --email=${{ secrets.APTIBLE_USERNAME }} --password=${{ secrets.APTIBLE_PASSWORD}}
           aptible deploy --app clamav-test 'CLAMMIT_LISTEN=${{ secrets.CLAMMIT_LISTEN }}' \
-          'CLAMMIT_CLAMD_URL=${{ secrets.CLAMMIT_CLAMD_URL }}' \
-          'CLAMMIT_APP_URL=${{ secrets.CLAMMIT_APP_URL }}'
+          'CLAMMIT_CLAMD_URL=${{ secrets.CLAMMIT_CLAMD_URL }}' 
+         # 'CLAMMIT_APP_URL=${{ secrets.CLAMMIT_APP_URL }}'
