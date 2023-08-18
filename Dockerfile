@@ -14,8 +14,10 @@ WORKDIR /home/clam
 
 COPY launcher.sh /
 
+ARG APTIBLE_ENV=/app/.aptible.env
 # Set permissions, and create required directories and files
-RUN set -a && . .aptible.env && \
+RUN set -a  && \
+    if [ -e ${APTIBLE_ENV} ] ; then . ${APTIBLE_ENV} ; fi && \
     mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
     mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
@@ -31,6 +33,10 @@ RUN set -a && . .aptible.env && \
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
     echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf
 
+RUN echo "*** Variables: " && \
+    echo ${CLAMMIT_LISTEN} && \
+    echo ${CLAMMIT_CLAMD_URL} && \
+    echo "***"
 
 # Switch to clam user and update virus definitions
 USER clam
