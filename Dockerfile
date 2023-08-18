@@ -14,10 +14,6 @@ WORKDIR /home/clam
 
 COPY launcher.sh /
 
-#ARG APTIBLE_ENV=/app/.aptible.env
-# Set permissions, and create required directories and files
-#RUN set -a  && \
-#    if [ -e ${APTIBLE_ENV} ] ; then . ${APTIBLE_ENV} && cat ${APTIBLE_ENV}; fi && \
 RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
     mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
@@ -31,16 +27,11 @@ RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/lo
     echo "0 0/2 * * * freshclam" >> /var/spool/cron/crontabs/root && \
     # Configure clamd to listen on TCP
     echo "TCPSocket 3310" >> /etc/clamav/clamd.conf && \
-    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf && \
-    echo "*** Variables: " && \
-    echo ${CLAMMIT_LISTEN} && \
-    echo ${CLAMMIT_CLAMD_URL} && \
-    echo "***"
+    echo "TCPAddr 127.0.0.1" >> /etc/clamav/clamd.conf
 
 # Switch to clam user and update virus definitions
 USER clam
-# TODO - TURN BACK ON - we were hitting their rate limit and are now blocked until tomorrow (8/19)
-#RUN freshclam
+RUN freshclam
 
 # Copy clammit binaries and test files
 COPY --from=build-env --chown=clam:clam /app/bin/clammit .
