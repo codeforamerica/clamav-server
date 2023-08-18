@@ -7,8 +7,6 @@ RUN git clone https://github.com/ifad/clammit . && make all
 
 # Build runtime image
 FROM alpine:latest
-ENV CLAMMIT_LISTEN=${CLAMMIT_LISTEN:8348}
-ENV CLAMMIT_CLAMD_URL=${CLAMMIT_CLAMD_URL:tcp://localhost:3310}
 RUN apk --no-cache add ca-certificates clamav curl && \
     addgroup -S clam && adduser -u 101 -S -G clam clam
 
@@ -17,7 +15,8 @@ WORKDIR /home/clam
 COPY launcher.sh /
 
 # Set permissions, and create required directories and files
-RUN mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
+RUN set -a && . /app/.aptible.env && \
+    mkdir -p /var/log/clamav && touch /var/log/clamav/clamd.log && touch /var/log/clamav/freshclam.log && \
     mkdir -p /run/clamav && touch /run/clamav/clamd.pid && \
     chown -R clam:clam /run/clamav && \
     chown -R clam:clam /var/log/clamav && \
