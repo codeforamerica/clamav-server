@@ -7,6 +7,8 @@ RUN git clone https://github.com/ifad/clammit . && make all
 
 # Build runtime image
 FROM alpine:latest
+ENV CLAMMIT_LISTEN=${CLAMMIT_LISTEN:8348}
+ENV CLAMMIT_CLAMD_URL=${CLAMMIT_CLAMD_URL:tcp://localhost:3310}
 RUN apk --no-cache add ca-certificates clamav curl && \
     addgroup -S clam && adduser -u 101 -S -G clam clam
 
