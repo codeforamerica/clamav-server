@@ -1,7 +1,24 @@
 # Virus Scanner Service
 Deployable virus scanning service developed for use in applications using [form-flow](https://github.com/codeforamerica/form-flow). We use a modified version of [clammit Dockerfile](https://github.com/maxsivkov/clammit-docker), a lightweight HTTP wrapper around [ClamAV](https://www.clamav.net/). 
 
-Clammit configuration parameters are passed through environment. Based on these variables launcher.sh creates [clamav.cfg configuration](https://github.com/ifad/clammit/blob/master/README.md#configuration) file
+## Development
+To run and rebuild the `Dockerfile` locally, run the following from the root of the repo:
+```sh
+docker build -t clamav-server . && docker run -d -p 8438:8438 --name clamav-server clamav-server
+```
+Once it's been built and running, you can iterate on it again with this longer version:
+```sh
+docker stop clamav-server && docker rm clamav-server && docker build -t clamav-server . && docker run -d -p 8438:8438 --name clamav-server clamav-server
+```
+
+## Deployment
+Deploy the `Dockerfile` to aptible with the following command: 
+```
+aptible deploy --app clamav-test 'CLAMMIT_LISTEN=${{ secrets.CLAMMIT_LISTEN }}' 'CLAMMIT_CLAMD_URL=${{ secrets.CLAMMIT_CLAMD_URL }}
+```
+To automate it, take a look at our [automated deploy Github Action](/.github/worksflows/deploy.yaml) for reference. 
+
+Clammit configuration parameters are passed through environment. Based on these variables launcher.sh creates [clamav.cfg configuration](https://github.com/ifad/clammit/blob/master/README.md#configuration) file.
 
 Environment variable         | Description
 :---------------| :-----------------------------------------------------------------------------
