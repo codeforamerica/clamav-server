@@ -16,7 +16,7 @@ Deploy the `Dockerfile` to aptible with the following command:
 ```
 aptible deploy --app clamav-test 'CLAMMIT_LISTEN=${{ secrets.CLAMMIT_LISTEN }}' 'CLAMMIT_CLAMD_URL=${{ secrets.CLAMMIT_CLAMD_URL }}
 ```
-To automate it, take a look at our [automated deploy Github Action](/.github/worksflows/deploy.yaml) for reference. 
+To automate it, take a look at our [automated deploy Github Action](/.github/workflows/deploy.yaml) for reference. 
 
 Clammit configuration parameters are passed through environment. Based on these variables launcher.sh creates [clamav.cfg configuration](https://github.com/ifad/clammit/blob/master/README.md#configuration) file.
 
