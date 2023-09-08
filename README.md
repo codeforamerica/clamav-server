@@ -31,3 +31,7 @@ CLAMMIT_DEBUG           | (Optional) If true, more things will be logged
 CLAMMIT_STATUS_CODE      | (Optional) The HTTP status code to return when a virus is found. Default is 418 
 CLAMMIT_MEMORY_THRESHOLD      | (Optional) If the body content-length exceeds this value, it will be written to disk. Below it, we'll hold the whole body in memory to improve speed. Default is 1Mb
 CLAMMIT_THREADS      | (Optional) Number of CPU threads to use. Default is a number of CPUs cores 
+
+
+## Maintenance and Development
+This system is maintained by Code for America's Platform team. 
